@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    
+    <!-- HEAD instruction: 
+    {0} = instr.heading.x, 
+    {1} = instr.head.on_road, 
+    {2} = instr.head.toward  
+    -->
+    <string name="instr.head">{0}{1}{2}</string>    
+    <string name="instr.head.on_road">\u0020on\u0020{0}</string>
+    <string name="instr.head.toward">\u0020\u0020toward\u0020{0}</string>
+    
+    <string name="instr.heading.n">Head\u0020north</string>
+	<string name="instr.heading.ne">Head\u0020north-east</string>
+	<string name="instr.heading.e">Head\u0020east</string>
+	<string name="instr.heading.se">Head\u0020south-east</string>
+	<string name="instr.heading.s">Head\u0020south</string>
+	<string name="instr.heading.sw">Head\u0020south-west</string>
+	<string name="instr.heading.w">Head\u0020west</string>
+	<string name="instr.heading.nw">Head\u0020north-west</string>
+    
+    <!-- CONTINUE instruction: 
+    {0} = instr.continue.on_road, 
+    {1} = instr.continue.advice.x 
+    -->
+	<string name="instr.continue">{0}{1}</string>
+    <string name="instr.continue.on_road">Continue\u0020on\u0020{0}</string>
+	<!-- CONTINUE advices -->
+	<string name="instr.continue.advice.bridge">\u0020-\u0020Cross\u0020{0}</string>	
+	<string name="instr.continue.advice.roundabouts">\u0020-\u0020Go\u0020through\u0020{0}\u0020roundabouts</string>
+	<string name="instr.continue.advice.tunnel">\u0020-\u0020Take\u0020tunnel\u0020{0}</string>
+	<string name="instr.continue.advice.cross">\u0020-\u0020Cross\u0020{0}</string>
+	<string name="instr.continue.advice.passby">\u0020-\u0020Pass\u0020by\u0020{0}</string>
+	
+    <!-- TURN instruction: 
+    {0} = instr.turn.x, 
+    {1} = instr.turn.at, 
+    {2} = instr.turn.merge, 
+    {3} = instr.turn.advice.x 
+    -->
+	<string name="instr.turn">{0}{1}{2}{3}</string>
+	<string name="instr.turn.at">\u0020at\u0020{0}</string>
+	<string name="instr.turn.merge">\u0020to\u0020merge\u0020onto\u0020{0}</string>
+    <!-- TURN advices  -->
+	<string name="instr.turn.advice.continue">\u0020-\u0020Continue\u0020on\u0020{0}</string>
+	<string name="instr.turn.advice.stay">\u0020-\u0020Stay\u0020on\u0020{0}</string>
+					
+	<string name="instr.turn.slight_left">Turn\u0020slight\u0020left</string>
+	<string name="instr.turn.left">Turn\u0020left</string>
+	<string name="instr.turn.sharp_left">Turn\u0020sharp\u0020left</string>
+	<string name="instr.turn.slight_right">Turn\u0020slight\u0020right</string>
+	<string name="instr.turn.right">Turn\u0020right</string>
+	<string name="instr.turn.sharp_right">Turn\u0020sharp\u0020right</string>
+	<string name="instr.turn.cross">Turn\u0020straight</string>
+			
+    <!-- KEEPLEFT,KEEPRIGHT instructions: 
+    {0} = instr.keep.x, 
+    {1} = instr.keep.follow, 
+    {2} = instr.keep.merge, 
+    {3} = instr.keep.advice.x 
+    -->
+	<string name="instr.keep">{0}{1}{2}{3}</string>
+	<string name="instr.keep.left">Keep\u0020left\u0020at\u0020the\u0020fork</string>
+	<string name="instr.keep.right">Keep\u0020right\u0020at\u0020the\u0020fork</string>
+	<string name="instr.keep.follow">,\u0020follow\u0020signs\u0020for\u0020{0}</string>
+	<string name="instr.keep.merge">\u0020and\u0020merge\u0020onto\u0020{0}</string>
+    <!-- KEEPLEFT,KEEPRIGHT advices  -->
+	<string name="instr.keep.advice.toll">\u0020-\u0020Toll\u0020road</string>
+	
+    <!-- ROUNDABOUT instruction: 
+    {0} = instr.roundabout.name | instr.roundabout.noname, 
+    {1} = instr.roundabount.exit 
+    {2} = instr.roundabout.on_road
+    -->
+	<string name="instr.roundabout">{0}{1}{2}</string>    
+	<string name="instr.roundabout.name">At\u0020{0}</string>
+	<string name="instr.roundabout.noname">At\u0020the\u0020roundabout</string>
+	<string name="instr.roundabout.exit">,\u0020take\u0020the\u0020{0}\u0020exit</string>
+	<string name="instr.roundabout.on_road">\u0020onto\u0020{0}</string>
+	<string name="instr.roundabout.exit.n1">1st</string>
+	<string name="instr.roundabout.exit.n2">2nd</string>
+	<string name="instr.roundabout.exit.n3">3rd</string>
+	<string name="instr.roundabout.exit.n4">4th</string>
+	<string name="instr.roundabout.exit.n5">5th</string>
+	<string name="instr.roundabout.exit.n6">6th</string>
+	<string name="instr.roundabout.exit.n7">7th</string>
+	<string name="instr.roundabout.exit.n8">8th</string>
+	<string name="instr.roundabout.exit.n9">9th</string>
+	
+    <!-- RAMP instruction: 
+	{0} = instr.ramp.on_road, 
+    {1} = instr.ramp.toward  
+	-->
+	<string name="instr.ramp">{0}{1}</string>
+	<string name="instr.ramp.on_road">Take\u0020the\u0020ramp\u0020onto\u0020{0}</string>
+	<string name="instr.ramp.toward">\u0020toward\u0020{0}</string>
+	
+    <!-- MERGE instruction: 
+	{0} = instr.merge.on_road (where {0} = instr.heading.x and {1} = road name),
+    {1} = instr.merge.toward 
+	-->
+	<string name="instr.merge">{0}{1}</string>
+	<string name="instr.merge.noname">Take\u0020the\u0020ramp</string>
+	<string name="instr.merge.on_road">Take\u0020the\u0020ramp\u0020to\u0020merge\u0020onto\u0020{0}</string>
+	<string name="instr.merge.toward">\u0020toward\u0020{0}</string>
+		
+    <!-- EXIT instruction: 
+	{0} = instr.exit.number,
+	{1} = instr.exit.toward
+	-->
+	<string name="instr.exit">{0}{1}</string>
+	<string name="instr.exit.number">Take\u0020exit\u0020{0}</string>
+	<string name="instr.exit.toward">\u0020toward\u0020{0}</string>
+	
+	
+	<!-- EMBARK instruction:
+	{0} = instr.embark.name,
+	{1} = instr.embark.toward,
+	{2} = instr.embark.next_stop,
+	{3} = instr.embark.wait_time,
+	 -->	
+	<string name="instr.embark">{0}{1}{2}{3}</string>
+	<string name="instr.embark.name">Take\u0020{0}</string>
+	<string name="instr.embark.toward">\u0020toward\u0020{0}</string>
+	<string name="instr.embark.next_stop">\u0020and\u0020stop\u0020at\u0020{0}</string>
+	<string name="instr.embark.wait_time">wait\u0020time:\u0020{0}</string>
+	<string name="instr.embark.type.boatferry">boat ferry</string>
+	<string name="instr.embark.type.railferry">rail ferry</string>	
+	
+	<!-- DISEMBARK instruction:
+	{0} = exit name
+	-->		
+	<string name="instr.disembark">Take\u0020exit\u0020{0}</string>
+	
+	<!-- CHANGE instruction:
+	{0} = instr.change.name,
+	{1} = instr.change.toward,
+	{2} = instr.change.next_stop,
+	{3} = instr.change.wait_time,
+	-->	
+	<string name="instr.change">{0}{1}{2}{3}</string>
+	<string name="instr.change.name">Take\u0020{0}</string>
+	<string name="instr.change.toward">\u0020toward\u0020{0}</string>
+	<string name="instr.change.next_stop">\u0020and\u0020stop\u0020at\u0020{0}</string>
+	<string name="instr.change.wait_time">wait\u0020time:\u0020{0}</string>
+
+	<!-- LEAVEYOURCAR instruction:
+	{0} = instr.leaveyourcar.advice
+	-->	
+	<string name="instr.leaveyourcar">Leave\u0020your\u0020car</string>
+	<string name="instr.leaveyourcar.advice">\u0020-\u0020Continue\u0020on\u0020{0}</string>
+	
+	<!-- END instruction:
+	-->	
+	<string name="instr.end">Arrival</string>
+	
+	<!-- RENDER TIME:
+	-->
+	<string name="instr.render.time.hour">hour</string>
+	<string name="instr.render.time.hours">hours</string>
+	<string name="instr.render.time.minute">minute</string>
+	<string name="instr.render.time.minutes">minutes</string>
+
+
+
+
+	<!-- LEGACY version -->
+	<string name="instr.9">slight\u0020left</string>
+	<string name="instr.10">left</string>
+	<string name="instr.11">sharp\u0020left</string>
+	<string name="instr.12">slight\u0020right</string>
+	<string name="instr.13">right</string>
+	<string name="instr.14">sharp\u0020right</string>
+
+</resources>
