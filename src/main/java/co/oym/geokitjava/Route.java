@@ -2,6 +2,7 @@ package co.oym.geokitjava;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,33 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
  */
 public class Route {
 
+	/**
+	 * A Ranking request.
+	 */
+	public static class RankingRequest {
+		public LatLng origin;
+		public List<LatLng> points = new ArrayList<>();
+		public int transportMode = 1;
+		public String distanceUnit = "KM";
+	}
+	
+	/**
+	 * A Ranking response.
+	 */
+	public static class RankingResponse {
+		public List<RankedPoint> rankedPoints;
+	}
+	
+	/**
+	 * A Ranked point.
+	 */
+	public static class RankedPoint {
+		public LatLng location;
+		public double length;
+		public double time;
+	}
+	
+	
 	/**
 	 * A Route request.
 	 */
@@ -245,6 +273,7 @@ public class Route {
 				instr_ramp,
 				instr_ramp_on_road,
 				instr_ramp_toward,
+				instr_ramp_turn,
 				
 				instr_merge,
 				instr_merge_noname,
@@ -565,15 +594,21 @@ public class Route {
 			} else if (manType.equals("RAMP")) {
 
 				final String onto = (manBranch != null) ? decodeBranch(manBranch) : (manRd != null || manRdnr != null) ? decodeRoad(manRd, manRdnr) : "";
+				String turn = "";
+				if (onto.equals("")) {
+					turn = (manHeading != null) ? decodeHeading2(manHeading, res) : "";
+				}
 				final String toward = (manDir != null) ? decodeDirection(manDir) : "";
-
+				
 				// onto
 				final String ontoMsg = !onto.equals("") ? rebuild(res, R.string.instr_ramp_on_road, new Object[]{onto}) : "";
+				// turn
+				final String turnMsg = !turn.equals("") ? rebuild(res, R.string.instr_ramp_turn, new Object[]{turn}) : "";
 				// toward
 				final String towardMsg = !toward.equals("") ? rebuild(res, R.string.instr_ramp_toward, new Object[]{toward}) : "";
 
 				// final: on_road + toward
-				return rebuild(res, R.string.instr_ramp, new Object[]{ontoMsg, towardMsg});
+				return rebuild(res, R.string.instr_ramp, new Object[]{ontoMsg, turnMsg, towardMsg});
 
 
 			} else if (manType.equals("MERGE")) {

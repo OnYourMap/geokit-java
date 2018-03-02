@@ -1,13 +1,17 @@
 package co.oym.geokitjava;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import org.codehaus.jackson.type.JavaType;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -77,7 +81,7 @@ public class WSClient {
 	 * Call this method if you need to kill OkHttpClient thread pool when you need to exit your application
 	 */
 	public void shutdown() {
-		client.getDispatcher().getExecutorService().shutdown();
+		client.dispatcher().executorService().shutdown();
 	}
 
 	private String jsonify(Object obj) throws Exception {
@@ -101,10 +105,10 @@ public class WSClient {
 		
 		WSResponse<T> resp = null;
 		try {
-			JavaType javaType = JSON.mapper.getTypeFactory().constructParametrizedType(WSResponse.class, WSResponse.class, outputClass);
+			JavaType javaType = JSON.mapper.getTypeFactory().constructParametricType(WSResponse.class, outputClass);
 			resp = JSON.mapper.readValue(json, javaType);
 		} catch (Exception ex) {
-			JavaType javaType = JSON.mapper.getTypeFactory().constructParametrizedType(WSResponse.class, WSResponse.class, String.class);
+			JavaType javaType = JSON.mapper.getTypeFactory().constructParametricType(WSResponse.class, String.class);
 			resp = JSON.mapper.readValue(json, javaType);
 		}
 		if (resp == null || !resp.statusCode.equals("200")) {
@@ -113,10 +117,10 @@ public class WSClient {
 		return resp.data;
 	}
 
-	private String execute(com.squareup.okhttp.Request request) throws Exception {
+	private String execute(okhttp3.Request request) throws Exception {
 		// POST
 		try {
-			com.squareup.okhttp.Response response = client.newCall(request).execute();
+			okhttp3.Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
         		String content = response.body().string();
 				return content;
@@ -169,7 +173,7 @@ public class WSClient {
 			
 			String jsonObject = jsonify(request);
 			
-			com.squareup.okhttp.Request okReq = new com.squareup.okhttp.Request.Builder()
+			okhttp3.Request okReq = new okhttp3.Request.Builder()
 			.url(webServiceUrl + "/place/search")
 			.post(RequestBody.create(JSON_TYPE, jsonObject))
 	        .addHeader("Content-Type", "application/json; charset=utf-8")
@@ -213,7 +217,7 @@ public class WSClient {
 
 			String jsonObject = jsonify(request);
 
-			com.squareup.okhttp.Request okReq = new com.squareup.okhttp.Request.Builder()
+			okhttp3.Request okReq = new okhttp3.Request.Builder()
 					.url(webServiceUrl + "/place/nearest")
 					.post(RequestBody.create(JSON_TYPE, jsonObject))
 					.addHeader("Content-Type", "application/json; charset=utf-8")
@@ -257,7 +261,7 @@ public class WSClient {
 
 			String jsonObject = jsonify(request);
 
-			com.squareup.okhttp.Request okReq = new com.squareup.okhttp.Request.Builder()
+			okhttp3.Request okReq = new okhttp3.Request.Builder()
 					.url(webServiceUrl + "/place/autocomplete")
 					.post(RequestBody.create(JSON_TYPE, jsonObject))
 					.addHeader("Content-Type", "application/json; charset=utf-8")
@@ -309,7 +313,7 @@ public class WSClient {
 
 			String jsonObject = jsonify(request);
 
-			com.squareup.okhttp.Request okReq = new com.squareup.okhttp.Request.Builder()
+			okhttp3.Request okReq = new okhttp3.Request.Builder()
 					.url(webServiceUrl + "/route/directions")
 					.post(RequestBody.create(JSON_TYPE, jsonObject))
 					.addHeader("Content-Type", "application/json; charset=utf-8")
@@ -327,6 +331,51 @@ public class WSClient {
 				return null;
 			}
 		}
+		
+		/**
+		 * Rank points by distances and travel time.
+		 * If a callback object is provided, then the method will be executed asynchronously. If callback is null, then the method will be executed synchronously.
+		 * @param request
+		 * @param callback
+		 * @return
+		 * @throws Exception
+		 */
+		public Route.RankingResponse rankPoints(Route.RankingRequest request, final WSCallback<Route.RankingResponse> callback) throws Exception {
+			return rankPoints(appKey, request, callback);
+		}
+
+		/**
+		 * Rank points by distances and travel time.
+		 * If a callback object is provided, then the method will be executed asynchronously. If callback is null, then the method will be executed synchronously.
+		 * @param appKey
+		 * @param request
+		 * @param callback
+		 * @return
+		 * @throws Exception
+		 */
+		public Route.RankingResponse rankPoints(String appKey, Route.RankingRequest request, final WSCallback<Route.RankingResponse> callback) throws Exception {
+
+			String jsonObject = jsonify(request);
+
+			okhttp3.Request okReq = new okhttp3.Request.Builder()
+					.url(webServiceUrl + "/route/rankPoints")
+					.post(RequestBody.create(JSON_TYPE, jsonObject))
+					.addHeader("Content-Type", "application/json; charset=utf-8")
+					.addHeader("appKey", appKey)
+					.addHeader("Referer", appReferer)
+					.build();
+
+			if (callback == null) {
+				String content = execute(okReq);
+				return decodeContent(content, Route.RankingResponse.class);
+
+			} else {
+				DownloadTask<Route.RankingResponse> task = new DownloadTask<Route.RankingResponse>(client, DownloadTask.ROUTE_RANK_POINTS, okReq, callback);
+				executor.submit(task);
+				return null;
+			}
+		}
+		
 	}
 
 
@@ -335,6 +384,9 @@ public class WSClient {
 	 */
 	public static class JSON {
 		public static ObjectMapper mapper = new ObjectMapper();
+		static {
+			mapper.setSerializationInclusion(Inclusion.NON_NULL);
+		}
 
 		public static String toString(Object obj) {
 			try {
@@ -352,6 +404,7 @@ public class WSClient {
 		public static final int PLACE_NEAREST = 2;
 		public static final int ROUTE_DIRECTIONS = 3;
 		public static final int PLACE_AUTOCOMPLETE = 4;
+		public static final int ROUTE_RANK_POINTS = 5;
 
 		private final OkHttpClient client; 
 		private final int type;
@@ -369,7 +422,7 @@ public class WSClient {
 			client.newCall(req).enqueue(new Callback() {
 
 				@SuppressWarnings("unchecked")
-				public void onResponse(Response response) throws IOException {
+				public void onResponse(Call call, Response response) throws IOException {
 					String content = null;
 					try {
 						if (!response.isSuccessful()) {
@@ -390,6 +443,9 @@ public class WSClient {
 						} else if (type == ROUTE_DIRECTIONS) {
 							listener.onResponse((T) WSClient.decodeContent(content, Route.Response.class));
 
+						} else if (type == ROUTE_RANK_POINTS) {
+							listener.onResponse((T) WSClient.decodeContent(content, Route.RankingResponse.class));
+
 						}
 
 					} catch (Exception ex) {
@@ -404,7 +460,7 @@ public class WSClient {
 					}
 				}
 
-				public void onFailure(Request request, IOException e) {
+				public void onFailure(Call call, IOException e) {
 					e.printStackTrace();
 					listener.onFailure("network error: " + e.getMessage());
 				}

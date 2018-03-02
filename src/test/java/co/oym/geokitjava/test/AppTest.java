@@ -1,6 +1,7 @@
 package co.oym.geokitjava.test;
 
 import co.oym.geokitjava.*;
+import co.oym.geokitjava.WSClient.JSON;
 
 /**
  * A Test class. (for debugging purpose)
@@ -13,6 +14,9 @@ public class AppTest {
 			final String OYM_URL = "";
 			final String OYM_APP_KEY = "";
 			final String OYM_APP_REFERER = "";
+			
+			String json = "{\"data\":{\"time\":125,\"totalHits\":1,\"status\":null,\"places\":[{\"id\":null,\"description\":\"21, Avenue Pasteur, Le Bourget, 93350, Île-de-France, France\",\"properties\":{},\"dataset\":\"ADDR\",\"type\":\"0\",\"components\":{\"admin_area_level_1\":\"France\",\"admin_area_level_2\":\"Île-de-France\",\"admin_area_level_3\":\"Seine-Saint-Denis\",\"postal_code\":\"93350\",\"admin_area_level_4\":\"Le Bourget\",\"admin_area_level_5\":\"\",\"street_number\":\"21\",\"street_address\":\"Avenue Pasteur\",\"country\":null},\"geometry\":{\"location\":{\"lng\":2.418488,\"lat\":48.932741},\"type\":0,\"raw\":[]}}]},\"statusCode\":\"200\"}";
+			Place.SearchResponse r = WSClient.decodeContent(json, Place.SearchResponse.class);
 			
 			final WSClient oymClient = new WSClient(OYM_URL, OYM_APP_KEY, OYM_APP_REFERER);
 			

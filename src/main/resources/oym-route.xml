@@ -89,10 +89,12 @@
 	
     <!-- RAMP instruction: 
 	{0} = instr.ramp.on_road, 
-    {1} = instr.ramp.toward  
+    {1} = instr.ramp.turn (where {0} = instr.turn.x),
+    {2} = instr.ramp.toward,
 	-->
-	<string name="instr.ramp">{0}{1}</string>
+	<string name="instr.ramp">{0}{1}{2}</string>
 	<string name="instr.ramp.on_road">Take\u0020the\u0020ramp\u0020onto\u0020{0}</string>
+	<string name="instr.ramp.turn">{0}\u0020onto\u0020the\u0020ramp</string>
 	<string name="instr.ramp.toward">\u0020toward\u0020{0}</string>
 	
     <!-- MERGE instruction: 
