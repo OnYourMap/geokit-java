@@ -40,6 +40,8 @@ public class Route {
 	public static class IsochroneResponse {
 		/** The polygon containing all routes within allowed time. **/
 		public List<LatLng> polygon = new ArrayList<>();
+		/** A list of bitmask for each points in polygon list **/
+		public java.util.List<Integer> level;
 	}
 	
 	
