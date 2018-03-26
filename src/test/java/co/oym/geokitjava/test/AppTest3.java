@@ -16,12 +16,20 @@ public class AppTest3 {
 /*			final String OYM_URL = "http://stage-kartta.fonecta.fi/oym2";
 			final String OYM_APP_KEY = "nokey-fonecta";
 			final String OYM_APP_REFERER = "http://stage-kartta.fonecta.fi/demo/poc";*/
-			final String OYM_URL = "http://maps.onyourmap.com/oym2";
+			final String OYM_URL = "http://dp-viam.onyourmap.com/oym2";
 			final String OYM_APP_KEY = "nokey-maps";
 			final String OYM_APP_REFERER = "http://onyourmap.com";
 				
 			
 			final WSClient oymClient = new WSClient(OYM_URL, OYM_APP_KEY, OYM_APP_REFERER);
+			
+			Route.IsochroneRequest req = new Route.IsochroneRequest();
+			req.origin = new LatLng(61.493637, 23.775131);
+			req.time = 600;
+
+			Route.IsochroneResponse resp = oymClient.RouteWS.isochrone(req, null);
+			System.out.println(JSON.toString(resp));
+			
 /*
 			Place.SearchRequest req = new Place.SearchRequest();
 			//req.address = "Hämeenkatu";
@@ -34,23 +42,23 @@ public class AppTest3 {
 			Place.SearchResponse resp = oymClient.PlaceWS.search(req, null);
 			System.out.println("response: " + JSON.toString(resp));*/
 	
-			//////////////// directions (routing)
+	/*		//////////////// directions (routing)
 			Route.Request req4 = new Route.Request();
 			req4.start = new LatLng(61.493637, 23.775131);
 			req4.end = new LatLng(60.374497, 21.34619);
 			req4.distanceUnit = Route.Request.UNIT_KM;
 			req4.transportMode = Route.Request.TM_FASTEST_CAR;
-			System.out.println("request: " + JSON.toString(req4));
+			System.out.println("request: " + JSON.toString(req4));*/
 	/*		
 			req4.vias = new ArrayList<>();
 			req4.vias.add(new LatLng(63.468927, 23.749955));
 		*/	
 			// Sync request
-			Route.Response resp4 = oymClient.RouteWS.directions(req4, null); 
+//			Route.Response resp4 = oymClient.RouteWS.directions(req4, null); 
 	//		System.out.println("response: " + JSON.toString(resp4));
 
 			
-			
+	/*		
 			// Display all the route instructions 
 			java.io.InputStream resourceInputStream = ClassLoader.class.getResourceAsStream("/oym-route.xml");
 			Route.Utility.loadTranslation("en", resourceInputStream);
@@ -62,7 +70,7 @@ public class AppTest3 {
 			for (Route.Instruction instruction : resp4.instructions) {
 			    System.out.println(i++ + " : " + Route.Utility.renderInstruction(instruction, res));
 			}
-	
+*/	
 //			may close async threads
 //			oymClient.shutdown();
 			

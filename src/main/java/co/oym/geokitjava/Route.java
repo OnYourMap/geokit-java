@@ -26,6 +26,7 @@ public class Route {
 	 *
 	 */
 	public static class IsochroneRequest {
+		public int transportMode = 1;
 		/** The time in seconds of max route **/
 		public int time;
 		public LatLng origin;
