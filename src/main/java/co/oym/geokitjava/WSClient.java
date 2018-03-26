@@ -376,6 +376,49 @@ public class WSClient {
 			}
 		}
 		
+		/**
+		 * Compute route isochrone: polygon containing all possible routes within provided max time.
+		 * If a callback object is provided, then the method will be executed asynchronously. If callback is null, then the method will be executed synchronously.
+		 * @param request
+		 * @param callback
+		 * @return
+		 * @throws Exception
+		 */
+		public Route.IsochroneResponse isochrone(Route.IsochroneRequest request, final WSCallback<Route.IsochroneResponse> callback) throws Exception {
+			return isochrone(appKey, request, callback);
+		}
+
+		/**
+		 * Compute route isochrone: polygon containing all possible routes within provided max time.
+		 * If a callback object is provided, then the method will be executed asynchronously. If callback is null, then the method will be executed synchronously.
+		 * @param appKey
+		 * @param request
+		 * @param callback
+		 * @return
+		 * @throws Exception
+		 */
+		public Route.IsochroneResponse isochrone(String appKey, Route.IsochroneRequest request, final WSCallback<Route.IsochroneResponse> callback) throws Exception {
+
+			String jsonObject = jsonify(request);
+
+			okhttp3.Request okReq = new okhttp3.Request.Builder()
+					.url(webServiceUrl + "/route/isochrone")
+					.post(RequestBody.create(JSON_TYPE, jsonObject))
+					.addHeader("Content-Type", "application/json; charset=utf-8")
+					.addHeader("appKey", appKey)
+					.addHeader("Referer", appReferer)
+					.build();
+
+			if (callback == null) {
+				String content = execute(okReq);
+				return decodeContent(content, Route.IsochroneResponse.class);
+
+			} else {
+				DownloadTask<Route.IsochroneResponse> task = new DownloadTask<Route.IsochroneResponse>(client, DownloadTask.ROUTE_ISOCHRONE, okReq, callback);
+				executor.submit(task);
+				return null;
+			}
+		}
 	}
 
 
@@ -405,6 +448,7 @@ public class WSClient {
 		public static final int ROUTE_DIRECTIONS = 3;
 		public static final int PLACE_AUTOCOMPLETE = 4;
 		public static final int ROUTE_RANK_POINTS = 5;
+		public static final int ROUTE_ISOCHRONE = 6;
 
 		private final OkHttpClient client; 
 		private final int type;
@@ -446,6 +490,8 @@ public class WSClient {
 						} else if (type == ROUTE_RANK_POINTS) {
 							listener.onResponse((T) WSClient.decodeContent(content, Route.RankingResponse.class));
 
+						} else if (type == ROUTE_ISOCHRONE) {
+							listener.onResponse((T) WSClient.decodeContent(content, Route.IsochroneResponse.class));
 						}
 
 					} catch (Exception ex) {

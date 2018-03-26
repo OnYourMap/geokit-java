@@ -21,6 +21,28 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 public class Route {
 
 	/**
+	 * 
+	 * An isochrone request.
+	 *
+	 */
+	public static class IsochroneRequest {
+		/** The time in seconds of max route **/
+		public int time;
+		public LatLng origin;
+	}
+	
+	/**
+	 * 
+	 * An isochrone response.
+	 *
+	 */
+	public static class IsochroneResponse {
+		/** The polygon containing all routes within allowed time. **/
+		public List<LatLng> polygon = new ArrayList<>();
+	}
+	
+	
+	/**
 	 * A Ranking request.
 	 */
 	public static class RankingRequest {
